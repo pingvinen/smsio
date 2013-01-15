@@ -1,6 +1,7 @@
 using System;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace transformer
 {
@@ -39,8 +40,14 @@ namespace transformer
 			Parser parser = new Parser();
 			List<Sms> list = parser.Parse(filename);
 
+			List<Sms> sorted =	(
+									from y in list
+									orderby y.Address ascending, y.Date ascending
+									select y
+								).ToList();
+
 			RtfWriter writer = new RtfWriter();
-			writer.Output(list, filename);
+			writer.Output(sorted, filename);
 		}
 	}
 }
