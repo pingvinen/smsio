@@ -1,17 +1,118 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using DW.RtfWriter;
 
 namespace transformer
 {
 	public class RtfWriter
 	{
+		private const string TypeReceived = "1";
+		private const string TypeSent = "2";
+
 		public RtfWriter()
 		{
 		}
 
 		public void Output(List<Sms> list, string inputfilename)
 		{
+			string outputFilename = this.GetOutputFilename(inputfilename);
 
+			RtfDocument doc = new RtfDocument(PaperSize.A4, PaperOrientation.Portrait, Lcid.English);
+
+			FontDescriptor fontBody = doc.createFont("Courier New");
+			int fontSizeBody = 12;
+			int fontSizeSmall = 10;
+
+			RtfParagraph par;
+			RtfCharFormat format;
+
+			//
+			// file header
+			//
+			par = doc.addParagraph();
+			par.DefaultCharFormat.Font = fontBody;
+			par.DefaultCharFormat.FontSize = fontSizeSmall;
+			par.Text = String.Format("Generated\nFrom '{0}'\nOn {1}", inputfilename, DateTime.Now);
+
+			this.AddEmptyLine(doc);
+
+
+			string fromto = String.Empty;
+
+			//
+			// the smses
+			//
+			foreach (Sms sms in list)
+			{
+				//
+				// from / to
+				//
+				fromto = "From";
+				if (sms.Type.Equals(TypeSent))
+				{
+					fromto = "To";
+				}
+				par = doc.addParagraph();
+				par.DefaultCharFormat.Font = fontBody;
+				par.DefaultCharFormat.FontSize = fontSizeBody;
+				par.Text = String.Format("{0}: {1}", fromto, sms.Address);
+				format = par.addCharFormat(0, fromto.Length);
+				format.FontStyle.addStyle(FontStyleFlag.Bold);
+
+				if (!sms.ContactName.Equals("(Unknown)"))
+				{
+					par.Text = String.Format("{0} ({1})", par.Text, sms.ContactName);
+				}
+
+				//
+				// date
+				//
+				par = doc.addParagraph();
+				par.DefaultCharFormat.Font = fontBody;
+				par.DefaultCharFormat.FontSize = fontSizeBody;
+				par.Text = sms.Date.ToString();
+
+				this.AddEmptyLine(doc);
+
+				//
+				// body
+				//
+				par = doc.addParagraph();
+				par.DefaultCharFormat.Font = fontBody;
+				par.DefaultCharFormat.FontSize = fontSizeBody;
+				par.Text = sms.Body;
+
+				this.AddEmptyLine(doc);
+
+				//
+				// separator
+				//
+				par = doc.addParagraph();
+				par.DefaultCharFormat.Font = fontBody;
+				par.DefaultCharFormat.FontSize = fontSizeBody;
+				par.Text = "---";
+
+				this.AddEmptyLine(doc);
+			}
+
+			doc.save(outputFilename);
+		}
+
+		private void AddEmptyLine(RtfDocument doc)
+		{
+			doc.addParagraph();
+		}
+
+		private string GetOutputFilename(string inputfilename)
+		{
+			string filenameNoExt = Path.GetFileNameWithoutExtension(inputfilename);
+
+			string path = Path.GetDirectoryName(inputfilename);
+
+			string res = String.Format("{0}{1}{2}.rtf", path, Path.DirectorySeparatorChar, filenameNoExt);
+
+			return res;
 		}
 	}
 }

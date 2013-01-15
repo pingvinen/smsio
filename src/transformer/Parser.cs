@@ -56,17 +56,8 @@ namespace transformer
 
 			DateTime res = DateTime.MinValue;
 
-			try
-			{
-				var asint = Int64.Parse(input);
-
-				res = this.FromUnixTime(asint);
-			}
-
-			catch (Exception ex)
-			{
-				int i = 1;
-			}
+			var asint = Int64.Parse(input);
+			res = this.FromUnixTime(asint);
 
 			return res;
 		}
