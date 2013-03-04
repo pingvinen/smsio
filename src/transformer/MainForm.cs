@@ -71,7 +71,9 @@ namespace transformer
 		#region Button output as rtf
 		private void buttonOutputAsRtf_Click(object sender, EventArgs e)
 		{
-			this.Output(OutputFormat.RichTextFormat);
+			string filename = this.Output(OutputFormat.RichTextFormat);
+
+			System.Diagnostics.Process.Start(filename);
 		}
 		#endregion Button output as rtf
 
