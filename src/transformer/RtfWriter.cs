@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using DW.RtfWriter;
 
-namespace transformer
+namespace SmsIO
 {
 	public class RtfWriter
 	{

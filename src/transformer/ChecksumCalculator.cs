@@ -1,7 +1,7 @@
 using System;
 using System.Text;
 
-namespace transformer
+namespace SmsIO
 {
 	public static class ChecksumCalculator
 	{
