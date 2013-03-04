@@ -1,4 +1,5 @@
 using System;
+using ServiceStack.DataAnnotations;
 
 namespace transformer
 {
@@ -9,6 +10,12 @@ namespace transformer
 			this.Date = DateTime.MinValue;
 			this.DateSent = DateTime.MinValue;
 		}
+
+		[AutoIncrement]
+		public int Id { get; set; }
+
+		[Index]
+		public int Checksum { get; set; }
 
 		public string Protocol { get; set; }
 		public string Address { get; set; }

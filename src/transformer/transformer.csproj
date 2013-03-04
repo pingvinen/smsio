@@ -8,7 +8,7 @@
     <ProjectGuid>{F2616640-5C2E-4CFA-9DAC-AAF546C5E3A8}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>transformer</RootNamespace>
-    <AssemblyName>transformer</AssemblyName>
+    <AssemblyName>SMS-to-RTF</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -39,6 +39,16 @@
     <Reference Include="RtfWriter">
       <HintPath>..\..\libs\RtfWriter.dll</HintPath>
     </Reference>
+    <Reference Include="ServiceStack.OrmLite.Sqlite">
+      <HintPath>..\..\libs\ServiceStack.OrmLite.Sqlite.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.OrmLite">
+      <HintPath>..\..\libs\ServiceStack.OrmLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="ServiceStack.Interfaces">
+      <HintPath>..\..\libs\ServiceStack.Interfaces.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
@@ -48,5 +58,6 @@
     <Compile Include="Parser.cs" />
     <Compile Include="Sms.cs" />
     <Compile Include="RtfWriter.cs" />
+    <Compile Include="ChecksumCalculator.cs" />
   </ItemGroup>
 </Project>
