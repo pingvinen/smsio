@@ -11,10 +11,8 @@ namespace SmsIO
 		{
 		}
 
-		public void Output(List<Sms> list, string inputfilename)
+		public void Output(List<Sms> list, string outputFilename)
 		{
-			string outputFilename = this.GetOutputFilename(inputfilename);
-
 			RtfDocument doc = new RtfDocument(PaperSize.A4, PaperOrientation.Portrait, Lcid.English);
 
 			FontDescriptor fontBody = doc.createFont("Courier New");
@@ -30,7 +28,7 @@ namespace SmsIO
 			par = doc.addParagraph();
 			par.DefaultCharFormat.Font = fontBody;
 			par.DefaultCharFormat.FontSize = fontSizeSmall;
-			par.Text = String.Format("Generated\nFrom '{0}'\nOn {1}", inputfilename, DateTime.Now);
+			par.Text = String.Format("Generated\nOn {0}", DateTime.Now);
 
 			this.AddEmptyLine(doc);
 
@@ -99,17 +97,6 @@ namespace SmsIO
 		private void AddEmptyLine(RtfDocument doc)
 		{
 			doc.addParagraph();
-		}
-
-		private string GetOutputFilename(string inputfilename)
-		{
-			string filenameNoExt = Path.GetFileNameWithoutExtension(inputfilename);
-
-			string path = Path.GetDirectoryName(inputfilename);
-
-			string res = String.Format("{0}{1}{2}.rtf", path, Path.DirectorySeparatorChar, filenameNoExt);
-
-			return res;
 		}
 	}
 }
