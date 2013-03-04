@@ -10,6 +10,7 @@ namespace SmsIO
 {
 	public enum OutputFormat
 	{
-		RichTextFormat = 0
+		RichTextFormat = 0,
+		Html = 1
 	}
 }

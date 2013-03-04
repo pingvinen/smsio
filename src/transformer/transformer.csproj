@@ -49,6 +49,7 @@
     <Reference Include="ServiceStack.Interfaces">
       <HintPath>..\..\libs\ServiceStack.Interfaces.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
@@ -60,5 +61,12 @@
     <Compile Include="RtfWriter.cs" />
     <Compile Include="ChecksumCalculator.cs" />
     <Compile Include="OutputFormat.cs" />
+    <Compile Include="HtmlWriter.cs" />
+    <Compile Include="XmlConstants.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="htmltemplate.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>
