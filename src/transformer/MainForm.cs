@@ -26,7 +26,7 @@ namespace transformer
 			this.Close();
 		}
 
-		private void buttonSelectFile_Click(object sender, EventArgs e)
+		private void buttonLoadFile_Click(object sender, EventArgs e)
 		{
 			OpenFileDialog dia = new OpenFileDialog();
 			dia.CheckFileExists = true;
