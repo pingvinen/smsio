@@ -7,9 +7,6 @@ namespace SmsIO
 {
 	public class RtfWriter
 	{
-		private const string TypeReceived = "1";
-		private const string TypeSent = "2";
-
 		public RtfWriter()
 		{
 		}
@@ -49,7 +46,7 @@ namespace SmsIO
 				// from / to
 				//
 				fromto = "From";
-				if (sms.Type.Equals(TypeSent))
+				if (sms.Type.Equals(XmlConstants.TypeSent))
 				{
 					fromto = "To";
 				}
@@ -60,7 +57,7 @@ namespace SmsIO
 				format = par.addCharFormat(0, fromto.Length);
 				format.FontStyle.addStyle(FontStyleFlag.Bold);
 
-				if (!sms.ContactName.Equals("(Unknown)"))
+				if (!sms.ContactName.Equals(XmlConstants.UnknownContact))
 				{
 					par.Text = String.Format("{0} ({1})", par.Text, sms.ContactName);
 				}
