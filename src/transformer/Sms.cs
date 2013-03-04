@@ -1,7 +1,7 @@
 using System;
 using ServiceStack.DataAnnotations;
 
-namespace transformer
+namespace SmsIO
 {
 	public class Sms
 	{

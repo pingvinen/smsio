@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace transformer
+namespace SmsIO
 {
 	partial class MainForm : Form
 	{
@@ -150,7 +150,7 @@ namespace transformer
 			this.Controls.Add(this.buttonOutputAsRtf);
 			this.Controls.Add(this.buttonClose);
 			this.Name = "MainForm";
-			this.Text = "SMS backup xml to rtf";
+			this.Text = "SmsIO";
 			this.StartPosition = FormStartPosition.CenterScreen;
 
 			this.ResumeLayout(false);

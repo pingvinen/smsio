@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
 
-namespace transformer
+namespace SmsIO
 {
 	public class Parser
 	{

@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace transformer
+namespace SmsIO
 {
 	static class Program
 	{

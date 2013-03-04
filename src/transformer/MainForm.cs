@@ -6,7 +6,7 @@ using ServiceStack.OrmLite;
 using System.Data;
 using System.IO;
 
-namespace transformer
+namespace SmsIO
 {
 	public partial class MainForm : Form
 	{
