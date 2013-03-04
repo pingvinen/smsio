@@ -7,17 +7,12 @@ namespace SmsIO
 {
 	public class RtfWriter
 	{
-		private const string TypeReceived = "1";
-		private const string TypeSent = "2";
-
 		public RtfWriter()
 		{
 		}
 
-		public void Output(List<Sms> list, string inputfilename)
+		public void Output(List<Sms> list, string outputFilename)
 		{
-			string outputFilename = this.GetOutputFilename(inputfilename);
-
 			RtfDocument doc = new RtfDocument(PaperSize.A4, PaperOrientation.Portrait, Lcid.English);
 
 			FontDescriptor fontBody = doc.createFont("Courier New");
@@ -33,7 +28,7 @@ namespace SmsIO
 			par = doc.addParagraph();
 			par.DefaultCharFormat.Font = fontBody;
 			par.DefaultCharFormat.FontSize = fontSizeSmall;
-			par.Text = String.Format("Generated\nFrom '{0}'\nOn {1}", inputfilename, DateTime.Now);
+			par.Text = String.Format("Generated\nOn {0}", DateTime.Now);
 
 			this.AddEmptyLine(doc);
 
@@ -49,7 +44,7 @@ namespace SmsIO
 				// from / to
 				//
 				fromto = "From";
-				if (sms.Type.Equals(TypeSent))
+				if (sms.Type.Equals(XmlConstants.TypeSent))
 				{
 					fromto = "To";
 				}
@@ -60,7 +55,7 @@ namespace SmsIO
 				format = par.addCharFormat(0, fromto.Length);
 				format.FontStyle.addStyle(FontStyleFlag.Bold);
 
-				if (!sms.ContactName.Equals("(Unknown)"))
+				if (!sms.ContactName.Equals(XmlConstants.UnknownContact))
 				{
 					par.Text = String.Format("{0} ({1})", par.Text, sms.ContactName);
 				}
@@ -102,17 +97,6 @@ namespace SmsIO
 		private void AddEmptyLine(RtfDocument doc)
 		{
 			doc.addParagraph();
-		}
-
-		private string GetOutputFilename(string inputfilename)
-		{
-			string filenameNoExt = Path.GetFileNameWithoutExtension(inputfilename);
-
-			string path = Path.GetDirectoryName(inputfilename);
-
-			string res = String.Format("{0}{1}{2}.rtf", path, Path.DirectorySeparatorChar, filenameNoExt);
-
-			return res;
 		}
 	}
 }

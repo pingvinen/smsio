@@ -43,6 +43,7 @@ namespace SmsIO
 			this.buttonClearDb = new System.Windows.Forms.Button();
 			this.buttonOpenDbFolder = new System.Windows.Forms.Button();
 			this.buttonOutputAsRtf = new System.Windows.Forms.Button();
+			this.buttonOutputAsHtml = new System.Windows.Forms.Button();
 
 			this.SuspendLayout();
 
@@ -77,7 +78,7 @@ namespace SmsIO
 			this.buttonOpenDbFolder.Location = new System.Drawing.Point(margin, this.buttonLoadFile.Location.Y + this.buttonLoadFile.Height + margin);
 			this.buttonOpenDbFolder.Name = "buttonOpenDbFolder";
 			this.buttonOpenDbFolder.Size = buttonSize;
-			this.buttonOpenDbFolder.TabIndex = 1;
+			this.buttonOpenDbFolder.TabIndex = 2;
 			this.buttonOpenDbFolder.Text = "Open DB folder";
 			this.buttonOpenDbFolder.UseVisualStyleBackColor = true;
 			this.buttonOpenDbFolder.Click += new System.EventHandler(this.buttonOpenDbFolder_Click);
@@ -89,7 +90,7 @@ namespace SmsIO
 			this.buttonClearDb.Location = new System.Drawing.Point(margin, this.buttonOpenDbFolder.Location.Y + this.buttonOpenDbFolder.Height + margin);
 			this.buttonClearDb.Name = "buttonClearDb";
 			this.buttonClearDb.Size = buttonSize;
-			this.buttonClearDb.TabIndex = 1;
+			this.buttonClearDb.TabIndex = 3;
 			this.buttonClearDb.Text = "Clear DB";
 			this.buttonClearDb.UseVisualStyleBackColor = true;
 			this.buttonClearDb.Click += new EventHandler(buttonClearDb_Click);
@@ -114,19 +115,31 @@ namespace SmsIO
 			this.buttonOutputAsRtf.Location = new System.Drawing.Point(columnTwoX, this.labelOutput.Location.Y + this.labelOutput.Height + margin);
 			this.buttonOutputAsRtf.Name = "buttonOutputAsRtf";
 			this.buttonOutputAsRtf.Size = buttonSize;
-			this.buttonOutputAsRtf.TabIndex = 1;
+			this.buttonOutputAsRtf.TabIndex = 4;
 			this.buttonOutputAsRtf.Text = "..as RTF";
 			this.buttonOutputAsRtf.UseVisualStyleBackColor = true;
 			this.buttonOutputAsRtf.Click += new EventHandler(buttonOutputAsRtf_Click);
 
 			// 
+			// buttonOutputAsHtml
+			// 
+			this.buttonOutputAsHtml.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.buttonOutputAsHtml.Location = new System.Drawing.Point(columnTwoX, this.buttonOutputAsRtf.Location.Y + this.buttonOutputAsRtf.Height + margin);
+			this.buttonOutputAsHtml.Name = "buttonOutputAsHtml";
+			this.buttonOutputAsHtml.Size = buttonSize;
+			this.buttonOutputAsHtml.TabIndex = 5;
+			this.buttonOutputAsHtml.Text = "..as HTML";
+			this.buttonOutputAsHtml.UseVisualStyleBackColor = true;
+			this.buttonOutputAsHtml.Click += new EventHandler(buttonOutputAsHtml_Click);
+
+			// 
 			// buttonClose
 			// 
 			this.buttonClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.buttonClose.Location = new System.Drawing.Point(columnTwoX, this.buttonOutputAsRtf.Location.Y + this.buttonOutputAsRtf.Height + margin);
+			this.buttonClose.Location = new System.Drawing.Point(columnTwoX, this.buttonOutputAsHtml.Location.Y + this.buttonOutputAsHtml.Height + margin);
 			this.buttonClose.Name = "buttonClose";
 			this.buttonClose.Size = buttonSize;
-			this.buttonClose.TabIndex = 2;
+			this.buttonClose.TabIndex = 6;
 			this.buttonClose.Text = "Close";
 			this.buttonClose.UseVisualStyleBackColor = true;
 			this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
@@ -148,6 +161,7 @@ namespace SmsIO
 			this.Controls.Add(this.buttonClearDb);
 			this.Controls.Add(this.buttonOpenDbFolder);
 			this.Controls.Add(this.buttonOutputAsRtf);
+			this.Controls.Add(this.buttonOutputAsHtml);
 			this.Controls.Add(this.buttonClose);
 			this.Name = "MainForm";
 			this.Text = "SmsIO";
@@ -164,5 +178,6 @@ namespace SmsIO
 		private System.Windows.Forms.Button buttonClearDb;
 		private System.Windows.Forms.Button buttonOpenDbFolder;
 		private System.Windows.Forms.Button buttonOutputAsRtf;
+		private System.Windows.Forms.Button buttonOutputAsHtml;
 	}
 }

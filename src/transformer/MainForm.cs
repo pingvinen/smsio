@@ -28,6 +28,14 @@ namespace SmsIO
 			}
 
 			this.dbFactory = new OrmLiteConnectionFactory(String.Format("Data Source={0};Version=3;", this.dbFile), false, SqliteDialect.Provider);
+
+			// make sure table exists
+			using (IDbConnection db = this.dbFactory.OpenDbConnection())
+			{
+				db.CreateTableIfNotExists<Sms>();
+			}
+
+			this.UpdateUiState();
 		}
 
 		#region Button close
@@ -55,6 +63,7 @@ namespace SmsIO
 				List<Sms> list = parser.Parse(dia.FileName);
 
 				this.SaveEntries(list);
+				this.UpdateUiState();
 
 				MessageBox.Show("All done");
 			}
@@ -77,6 +86,15 @@ namespace SmsIO
 		}
 		#endregion Button output as rtf
 
+		#region Button output as html
+		private void buttonOutputAsHtml_Click(object sender, EventArgs e)
+		{
+			string filename = this.Output(OutputFormat.Html);
+
+			System.Diagnostics.Process.Start(filename);
+		}
+		#endregion Button output as html
+
 		#region Button clear db
 		private void buttonClearDb_Click(object sender, EventArgs e)
 		{
@@ -84,8 +102,10 @@ namespace SmsIO
 			{
 				using (IDbConnection db = this.dbFactory.OpenDbConnection())
 				{
-					db.DropTable(typeof(Sms));
+					db.DropAndCreateTable(typeof(Sms));
 				}
+
+				this.UpdateUiState();
 
 				MessageBox.Show("Your database has been emptied");
 			}
@@ -102,6 +122,15 @@ namespace SmsIO
 					string filename = Path.Combine(this.appFolder, String.Format("{0}.rtf", this.GetTimestamp()));
 
 					RtfWriter writer = new RtfWriter();
+					writer.Output(this.GetSortedEntries(), filename);
+					return filename;
+				}
+
+				case OutputFormat.Html:
+				{
+					string filename = Path.Combine(this.appFolder, String.Format("{0}.html", this.GetTimestamp()));
+
+					HtmlWriter writer = new HtmlWriter();
 					writer.Output(this.GetSortedEntries(), filename);
 					return filename;
 				}
@@ -164,5 +193,21 @@ namespace SmsIO
 			}
 		}
 		#endregion Save
+
+		#region Update UI state
+		private void UpdateUiState()
+		{
+			bool hasSms = false;
+
+			using (IDbConnection db = this.dbFactory.OpenDbConnection())
+			{
+				hasSms = db.Select<Sms>().Count > 0;
+			}
+
+			this.buttonClearDb.Enabled = hasSms;
+			this.buttonOutputAsHtml.Enabled = hasSms;
+			this.buttonOutputAsRtf.Enabled = hasSms;
+		}
+		#endregion Update UI state
 	}
 }
