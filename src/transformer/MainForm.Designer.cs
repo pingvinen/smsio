@@ -92,6 +92,7 @@ namespace transformer
 			this.buttonClearDb.TabIndex = 1;
 			this.buttonClearDb.Text = "Clear DB";
 			this.buttonClearDb.UseVisualStyleBackColor = true;
+			this.buttonClearDb.Click += new EventHandler(buttonClearDb_Click);
 			#endregion Column 1
 
 			#region Column 2

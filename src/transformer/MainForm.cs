@@ -77,6 +77,21 @@ namespace transformer
 		}
 		#endregion Button output as rtf
 
+		#region Button clear db
+		private void buttonClearDb_Click(object sender, EventArgs e)
+		{
+			if (MessageBox.Show("This will delete the SMSes in your database. Are you sure you wish to continue?", "Confirm database deletion", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+			{
+				using (IDbConnection db = this.dbFactory.OpenDbConnection())
+				{
+					db.DropTable(typeof(Sms));
+				}
+
+				MessageBox.Show("Your database has been emptied");
+			}
+		}
+		#endregion Button clear db
+
 		#region Output
 		private string Output(OutputFormat format)
 		{
