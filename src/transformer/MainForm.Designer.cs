@@ -80,6 +80,7 @@ namespace transformer
 			this.buttonOpenDbFolder.TabIndex = 1;
 			this.buttonOpenDbFolder.Text = "Open DB folder";
 			this.buttonOpenDbFolder.UseVisualStyleBackColor = true;
+			this.buttonOpenDbFolder.Click += new System.EventHandler(this.buttonOpenDbFolder_Click);
 
 			// 
 			// buttonClearDb

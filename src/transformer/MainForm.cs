@@ -11,21 +11,25 @@ namespace transformer
 	public partial class MainForm : Form
 	{
 		private OrmLiteConnectionFactory dbFactory;
+		private string dbFile;
 
 		public MainForm()
 		{
 			this.InitializeComponent();
 
-			string dbfile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SMS-to-RTF.db");
+			this.dbFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SMS-to-RTF.db");
 
-			this.dbFactory = new OrmLiteConnectionFactory(String.Format("Data Source={0};Version=3;", dbfile), false, SqliteDialect.Provider);
+			this.dbFactory = new OrmLiteConnectionFactory(String.Format("Data Source={0};Version=3;", dbFile), false, SqliteDialect.Provider);
 		}
 
+		#region Button close
 		private void buttonClose_Click(object sender, EventArgs e)
 		{
 			this.Close();
 		}
+		#endregion Button close
 
+		#region Button load file
 		private void buttonLoadFile_Click(object sender, EventArgs e)
 		{
 			OpenFileDialog dia = new OpenFileDialog();
@@ -43,6 +47,14 @@ namespace transformer
 				MessageBox.Show("All done");
 			}
 		}
+		#endregion Button load file
+
+		#region Button open db folder
+		private void buttonOpenDbFolder_Click(object sender, EventArgs e)
+		{
+			System.Diagnostics.Process.Start(Path.GetDirectoryName(this.dbFile));
+		}
+		#endregion Button open db folder
 
 		private void RunTransformation(string filename)
 		{
