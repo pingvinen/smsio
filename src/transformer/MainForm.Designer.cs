@@ -116,6 +116,7 @@ namespace transformer
 			this.buttonOutputAsRtf.TabIndex = 1;
 			this.buttonOutputAsRtf.Text = "..as RTF";
 			this.buttonOutputAsRtf.UseVisualStyleBackColor = true;
+			this.buttonOutputAsRtf.Click += new EventHandler(buttonOutputAsRtf_Click);
 
 			// 
 			// buttonClose

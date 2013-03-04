@@ -59,5 +59,6 @@
     <Compile Include="Sms.cs" />
     <Compile Include="RtfWriter.cs" />
     <Compile Include="ChecksumCalculator.cs" />
+    <Compile Include="OutputFormat.cs" />
   </ItemGroup>
 </Project>

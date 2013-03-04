@@ -11,15 +11,23 @@ namespace transformer
 	public partial class MainForm : Form
 	{
 		private OrmLiteConnectionFactory dbFactory;
+		private string appFolder;
 		private string dbFile;
 
 		public MainForm()
 		{
 			this.InitializeComponent();
 
-			this.dbFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SMS-to-RTF.db");
+			this.appFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SmsIO");
+			this.dbFile = Path.Combine(this.appFolder, "SmsIO.db");
 
-			this.dbFactory = new OrmLiteConnectionFactory(String.Format("Data Source={0};Version=3;", dbFile), false, SqliteDialect.Provider);
+			// make sure app folder exists
+			if (!Directory.Exists(this.appFolder))
+			{
+				Directory.CreateDirectory(this.appFolder);
+			}
+
+			this.dbFactory = new OrmLiteConnectionFactory(String.Format("Data Source={0};Version=3;", this.dbFile), false, SqliteDialect.Provider);
 		}
 
 		#region Button close
@@ -37,12 +45,16 @@ namespace transformer
 			dia.CheckPathExists = true;
 			dia.Filter = "XML files|*.xml";
 			dia.Title = "Select the SMS backup xml file";
+			dia.InitialDirectory = Environment.CurrentDirectory;
 
 			DialogResult res = dia.ShowDialog();
 
 			if (res == DialogResult.OK)
 			{
-				this.RunTransformation(dia.FileName);
+				Parser parser = new Parser();
+				List<Sms> list = parser.Parse(dia.FileName);
+
+				this.SaveEntries(list);
 
 				MessageBox.Show("All done");
 			}
@@ -52,17 +64,47 @@ namespace transformer
 		#region Button open db folder
 		private void buttonOpenDbFolder_Click(object sender, EventArgs e)
 		{
-			System.Diagnostics.Process.Start(Path.GetDirectoryName(this.dbFile));
+			System.Diagnostics.Process.Start(this.appFolder);
 		}
 		#endregion Button open db folder
 
-		private void RunTransformation(string filename)
+		#region Button output as rtf
+		private void buttonOutputAsRtf_Click(object sender, EventArgs e)
 		{
-			Parser parser = new Parser();
-			List<Sms> list = parser.Parse(filename);
+			this.Output(OutputFormat.RichTextFormat);
+		}
+		#endregion Button output as rtf
 
-			this.SaveEntries(list);
+		#region Output
+		private string Output(OutputFormat format)
+		{
+			switch (format)
+			{
+				case OutputFormat.RichTextFormat:
+				{
+					string filename = Path.Combine(this.appFolder, String.Format("{0}.rtf", this.GetTimestamp()));
 
+					RtfWriter writer = new RtfWriter();
+					writer.Output(this.GetSortedEntries(), filename);
+					return filename;
+				}
+
+				default:
+				{
+					throw new ArgumentException(String.Format("The output format '{0}' is not supported", format));
+				}
+			}
+		}
+
+		private string GetTimestamp()
+		{
+			return DateTime.Now.ToString("yyyy_MM_dd__hh_mm");
+		}
+		#endregion Output
+
+		#region Get sorted entries
+		private List<Sms> GetSortedEntries()
+		{
 			List<Sms> fromDb = new List<Sms>();
 
 			using (IDbConnection db = this.dbFactory.OpenDbConnection())
@@ -76,10 +118,11 @@ namespace transformer
 									select y
 								).ToList();
 
-			RtfWriter writer = new RtfWriter();
-			writer.Output(sorted, filename);
+			return sorted;
 		}
+		#endregion Get sorted entries
 
+		#region Save
 		private void SaveEntries(List<Sms> list)
 		{
 			using (IDbConnection db = this.dbFactory.OpenDbConnection())
@@ -103,5 +146,6 @@ namespace transformer
 				}
 			}
 		}
+		#endregion Save
 	}
 }
